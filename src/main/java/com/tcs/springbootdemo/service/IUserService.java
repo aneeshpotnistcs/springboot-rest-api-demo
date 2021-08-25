@@ -1,8 +1,10 @@
-package com.tcs.springbootdemo;
+package com.tcs.springbootdemo.service;
 
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+
+import com.tcs.springbootdemo.User;
 
 @Service
 public interface IUserService {
