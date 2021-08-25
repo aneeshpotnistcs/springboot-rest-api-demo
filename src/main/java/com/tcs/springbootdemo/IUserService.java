@@ -5,4 +5,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface IUserService {
 	void save(User user);
+
+	Iterable<User> getAllUsers();
 }
