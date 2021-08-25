@@ -55,9 +55,9 @@ public class UserController { // spring bean, act as request receiver
 		userService.deleteUser(id);
 	}
 	
-	@PutMapping // Method+Path should be unique
-	private void saveUser1(@RequestBody User user) {
-		userService.save(user);
+	@PutMapping("/{id}") // Method+Path should be unique
+	private void updateUser(@PathVariable("id") Integer id, @RequestBody User user) {
+		userService.update(user, id);
 		logger.debug(user.getFirstName());
 	}
 }
