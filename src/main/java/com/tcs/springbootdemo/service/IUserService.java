@@ -8,7 +8,7 @@ import com.tcs.springbootdemo.entity.User;
 
 @Service
 public interface IUserService {
-	void save(User user);
+	void save(User user) throws Exception;
 
 	Iterable<User> getAllUsers();
 
