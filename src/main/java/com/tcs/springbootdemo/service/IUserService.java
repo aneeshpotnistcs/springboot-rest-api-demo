@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.tcs.springbootdemo.User;
+import com.tcs.springbootdemo.entity.User;
 
 @Service
 public interface IUserService {
