@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import com.tcs.springbootdemo.entity.User;
 import com.tcs.springbootdemo.exceptions.UserNotFoundException;
@@ -48,8 +47,11 @@ public class UserService implements IUserService {
 	@Transactional(rollbackFor = Exception.class)
 	public void update(User user, Integer id) {
 		Optional<User> userFromDB = userRepository.findById(id);
+		if(userFromDB.isPresent()) 
+		{
+			userFromDB.get().setEmail(user.getEmail());
+			userRepository.save(userFromDB.get());
 
-		userFromDB.get().setEmail(user.getEmail());
-		userRepository.save(userFromDB.get());
+		}
 	}
 }
