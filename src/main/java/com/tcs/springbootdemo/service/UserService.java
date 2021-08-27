@@ -17,11 +17,11 @@ public class UserService implements IUserService {
 	IUserRepository userRepository;
 
 	@Override
-	@Transactional(rollbackFor = Exception.class)//Do rollback for all types of exceptions
-	public void save(User user) throws Exception {
+	@Transactional(rollbackFor = Exception.class,// Do rollback for all types of exception	
+	noRollbackFor = IllegalStateException.class) 																							
+	public void save(User user) {
 		userRepository.save(user);
-		System.out.println("saved");
-		throw new Exception();
+//		throw new IllegalStateException();
 	}
 
 	@Override
@@ -39,16 +39,17 @@ public class UserService implements IUserService {
 	}
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public void deleteUser(Integer id) {
 		userRepository.deleteById(id);
 	}
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public void update(User user, Integer id) {
 		Optional<User> userFromDB = userRepository.findById(id);
-		User user1 = userFromDB.get();
-		if(StringUtils.hasText(user.getFirstName()))
-			user1.setFirstName(user.getFirstName());
-		userRepository.save(user1);
+
+		userFromDB.get().setEmail(user.getEmail());
+		userRepository.save(userFromDB.get());
 	}
 }

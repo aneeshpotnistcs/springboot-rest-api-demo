@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tcs.springbootdemo.entity.User;
@@ -41,18 +42,16 @@ public class UserController { // spring bean, act as request receiver
 		return userService.getUser(id);
 	}
 
-	@ExceptionHandler(value = { UserNotFoundException.class, IllegalStateException.class,EmptyResultDataAccessException.class })
+	@ExceptionHandler(value = { UserNotFoundException.class, IllegalStateException.class,
+			EmptyResultDataAccessException.class })
 	public ResponseEntity<User> exception(RuntimeException runtimeException) {
 		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 	}
 
 	@PostMapping
+	@ResponseStatus(code=HttpStatus.CREATED)
 	public void saveUser(@RequestBody @Valid User user) {
-		try {
-			userService.save(user);
-		} catch (Exception e) {
-			logger.error(e.getCause().toString());
-		}
+		userService.save(user);
 		logger.debug(user.getFirstName());
 	}
 
@@ -60,7 +59,7 @@ public class UserController { // spring bean, act as request receiver
 	public void deleteUser(@PathVariable("id") Integer id) {
 		userService.deleteUser(id);
 	}
-	
+
 	@PutMapping("/{id}") // Method+Path should be unique
 	private void updateUser(@PathVariable("id") Integer id, @RequestBody User user) {
 		userService.update(user, id);
